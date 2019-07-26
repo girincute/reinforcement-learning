@@ -86,7 +86,7 @@ if __name__ == "__main__":
         total_reward = 0
 
         while True:
-            # env.render()
+            env.render()
 
             next_state, reward, done, _ = env.step(action)
             next_state = state_to_bucket(next_state)
