@@ -36,10 +36,14 @@ class DQNAgent:
         self.action_size = action_size
 
         # DQN 하이퍼파라미터
+        '''
+        일단 None이라고 되어있는 부분 위주로 수정해주세요. (다른 것들 잘못 건드시면 안될수도 있음)
+        아래 8개 하이퍼파라미터(maxlen 포함)는 cartpole_dqn 예제 그대로 복사하셔도 되고, 좀 수정하셔도 됩니다.
+        '''
         self.discount_factor = 0.99
-        self.learning_rate = 0.001 
+        self.learning_rate = 0.0005
         self.epsilon = 1.0
-        self.epsilon_decay = 0.999
+        self.epsilon_decay = 0.98
         self.epsilon_min = 0.01
         self.batch_size = 64
         self.train_start = 10000
@@ -69,9 +73,9 @@ class DQNAgent:
         수정하신 뒤에는 아래에 있는 pass를 지워주세요.
         '''
         model = Sequential()
-        model.add(Dense(24, input_dim=self.state_size, activation='relu',
+        model.add(Dense(64, input_dim=self.state_size, activation='relu',
                         kernel_initializer='he_uniform'))
-        model.add(Dense(24, activation='relu',
+        model.add(Dense(64, activation='relu',
                         kernel_initializer='he_uniform'))
         model.add(Dense(self.action_size, activation='linear',
                         kernel_initializer='he_uniform'))
@@ -98,9 +102,6 @@ class DQNAgent:
 
     # 리플레이 메모리에서 무작위로 추출한 배치로 모델 학습
     def train_model(self):
-        if self.epsilon > self.epsilon_min:
-            self.epsilon *= self.epsilon_decay
-
         # 메모리에서 배치 크기만큼 무작위로 샘플 추출
         mini_batch = random.sample(self.memory, self.batch_size)
 
